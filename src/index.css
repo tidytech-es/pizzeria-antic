@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #FAF7F2;
+  --color-stone: #F2ECE1;
+  --color-stone-deep: #E6DCCB;
+  --color-charcoal: #1C1917;
+  /* Text secundari: ≥ 7:1 sobre crema */
+  --color-ash: #57534E;
+  --color-tomato: #C83E2B;
+  --color-tomato-dark: #A8321F;
+  --color-basil: #2E5A44;
+  --color-basil-light: #E3ECE6;
+  --color-ember: #E8A33D;
+
+  --font-serif: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-soft: 0 1px 2px rgb(28 25 23 / 0.04), 0 8px 24px -8px rgb(28 25 23 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(28 25 23 / 0.05), 0 20px 40px -12px rgb(28 25 23 / 0.22);
+
+  /* Corbes amb empenta: les de CSS per defecte són massa toves */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+    -webkit-tap-highlight-color: transparent;
+    scrollbar-color: var(--color-stone-deep) var(--color-cream);
+    accent-color: var(--color-basil);
+  }
+  body {
+    @apply bg-cream text-charcoal font-sans antialiased;
+    caret-color: var(--color-tomato);
+  }
+  ::selection {
+    background: var(--color-tomato);
+    color: var(--color-cream);
+  }
+  h1, h2, h3 {
+    @apply font-serif;
+    font-optical-sizing: auto;
+  }
+  a {
+    text-underline-offset: 0.2em;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-tomato;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility container-page {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+}
+
+/* Fotos: zoom molt suau dins del marc, només amb ratolí */
+@utility photo-zoom {
+  transition: scale 600ms var(--ease-out);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      scale: 1.03;
+    }
+  }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+}
+@keyframes pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+@keyframes wipe {
+  from { clip-path: inset(0 100% 0 0); transform: translateX(-0.25em); }
+  to { clip-path: inset(0 -0.2em 0 0); transform: none; }
+}
+
+/* Entrades: totes amb la mateixa corba ràpida (--ease-out) */
+.animate-fade-up { animation: fade-up 400ms var(--ease-out) both; }
+.animate-fade-in { animation: fade-in 180ms var(--ease-out) both; }
+.animate-wipe { animation: wipe 650ms var(--ease-out) both; }
+.animate-pop { animation: pop 300ms var(--ease-out); }
